@@ -1,0 +1,24 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+
+metadata:
+  name: ai-gitops-ingress
+
+  annotations:
+    kubernetes.io/ingress.class: nginx
+
+spec:
+  rules:
+  - host: ai-gitops.local
+
+    http:
+      paths:
+      - path: /
+        pathType: Prefix
+
+        backend:
+          service:
+            name: ai-gitops-service
+
+            port:
+              number: 80
