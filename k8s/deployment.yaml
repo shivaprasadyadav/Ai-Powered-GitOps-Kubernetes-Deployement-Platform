@@ -1,0 +1,44 @@
+apiVersion: apps/v1
+kind: Deployment
+
+metadata:
+  name: ai-gitops-app
+
+spec:
+  replicas: 2
+
+  selector:
+    matchLabels:
+      app: ai-gitops-app
+
+  template:
+    metadata:
+      labels:
+        app: ai-gitops-app
+
+    spec:
+      containers:
+      - name: ai-gitops-app
+        image: YOUR_ECR_REPO_URL:latest
+
+        ports:
+        - containerPort: 5000
+
+        readinessProbe:
+          httpGet:
+            path: /health
+            port: 5000
+
+        livenessProbe:
+          httpGet:
+            path: /health
+            port: 5000
+
+        resources:
+          requests:
+            memory: "128Mi"
+            cpu: "100m"
+
+          limits:
+            memory: "256Mi"
+            cpu: "200m"
